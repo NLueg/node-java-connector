@@ -1,0 +1,27 @@
+{
+  "name": "node-java-bridge",
+  "version": "0.0.1",
+  "description": "enables plattform independant java support",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "prepare": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "java"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "author": "Nico Lueg",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^3.7.4",
+    "find-java-home": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/find-java-home": "^1.0.0",
+    "@types/node": "^13.1.6"
+  }
+}
