@@ -1,6 +1,6 @@
 {
   "name": "node-java-connector",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "enables platform independent java support",
   "main": "dist/index.js",
   "scripts": {
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/find-java-home": "^1.0.0",
-    "@types/node": "^13.1.6"
+    "@types/node": "^13.1.6",
+    "rimraf": "^3.0.0"
   }
 }

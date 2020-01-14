@@ -45,16 +45,16 @@ const tar = require('tar');
  *   })
  */
 export async function install(version: number = 8, options: any = {}) {
-  // let javaHomeExists: boolean = false;
+  let javaHomeExists: boolean = false;
   await findJavaHome({ allowJre: true }, async (err, home) => {
     if (err) return console.log(err);
 
     // Then we can just call "java" in the console
     if (!!home && home !== "") {
-      // javaHomeExists = true;
+      javaHomeExists = true;
     }
   });
-  // if (javaHomeExists) return;
+  if (javaHomeExists) return;
 
   const { openjdk_impl = 'hotspot', release = 'latest', type = 'jre' }: any = options;
   options = { ...options, openjdk_impl, release, type }
@@ -101,20 +101,20 @@ export async function install(version: number = 8, options: any = {}) {
 export async function executeJar(jarPath: string): Promise<ChildProcess> {
 
   let javaCall: string = "";
-  // let javaExists: boolean = false;
+  let javaExists: boolean = false;
   await findJavaHome({ allowJre: true }, async (err, home) => {
     if (err) return console.log(err);
 
     // Then we can just call "java" in the console
     if (!!home && home !== "") {
-      // javaExists = true;
+      javaExists = true;
       javaCall = "java";
     }
   });
 
-  // if (!javaExists) {
-  javaCall = getJavaString();
-  // }
+  if (!javaExists) {
+    javaCall = getJavaString();
+  }
 
   var output = exec(`${javaCall} -jar ${jarPath}`);
   if (!!output.stderr) {
