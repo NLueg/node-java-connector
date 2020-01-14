@@ -3,12 +3,11 @@ const os = require('os');
 export function getExecutable(): string {
     const platform = os.platform();
     switch (platform) {
-        case 'linux':
-        case 'darwin': 
-            return 'java';
+        case 'darwin':
+            return 'Contents/Home/bin/java';
         case 'win32': 
-            return 'java.exe';
+            return 'bin/java.exe';
         default:
-            return 'java';
+            return 'bin/java';  // for example linux
       }
 }

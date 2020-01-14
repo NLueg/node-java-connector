@@ -2,6 +2,7 @@
 
 import { ChildProcess, exec } from "child_process";
 import * as findJavaHome from "find-java-home";
+import { readdirSync } from "fs";
 import { jrePath } from "./constants";
 import { getExecutable } from "./helperFunctions";
 
@@ -88,7 +89,7 @@ export async function install(version: number = 8, options: any = {}) {
   }
 
   Object.keys(options).forEach(key => { url += key + '=' + options[key] + '&' })
-  const tmpdir = path.join(__dirname, 'jre')
+  const tmpdir = path.join(__dirname, 'jre-key')
 
   return tmpFetch(url)
     .then((response: { json: () => any }) => response.json())
@@ -127,12 +128,14 @@ export async function executeJar(jarPath: string): Promise<ChildProcess> {
 
 function getJavaString(): string {
   let srcPath = path.join(path.resolve(__dirname), '../', jrePath);
-  let files = fs.readdirSync(srcPath);
+  let files = readdirSync(srcPath);
 
-  if (files.length !== 1)
-    throw Error("JRE installation failed!");
 
-  return path.join(srcPath, files[0], "bin", getExecutable());
+  const file = files.filter(name => !name.startsWith("._"));
+  if (file.length > 1)
+    throw Error("JRE installation failed! Please install the package again.");
+
+  return path.join(srcPath, file[0], getExecutable());
 }
 
 function createDir(dir: any) {
@@ -197,7 +200,7 @@ function verify(file: unknown) {
 
 function move(file: string) {
   return new Promise((resolve, reject) => {
-    const newFile = path.join(path.dirname(require!.main!.filename), file.split(path.sep).slice(-1)[0])
+    const newFile = path.join(__dirname, file.split(path.sep).slice(-1)[0])
 
     fs.copyFile(file, newFile, (err: any) => {
       if (err) reject(err)
