@@ -2,7 +2,7 @@
   "name": "node-java-bridge",
   "version": "0.0.1",
   "description": "enables plattform independant java support",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
