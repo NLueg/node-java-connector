@@ -24,10 +24,10 @@ const tar = require('tar');
  * @param {string} [options.heap_size] - Heap Size (`normal`/`large`)
  * @return Promise<string> - Resolves to the installation directory or rejects an error
  * @example
- * const njre = require('njre')
+ * const njc = require('node-java-connector')
  *
  * // Use default options
- * njre.install()
+ * njc.install()
  *   .then(dir => {
  *     // Do stuff
  *   })
@@ -36,7 +36,7 @@ const tar = require('tar');
  *   })
  *
  * // or custom ones
- * njre.install(11, { os: 'aix', arch: 'ppc64', openjdk_impl: 'openj9' })
+ * njc.install(11, { os: 'aix', arch: 'ppc64', openjdk_impl: 'openj9' })
  *   .then(dir => {
  *     // Do stuff
  *   })
@@ -88,7 +88,7 @@ export async function install(version: number = 8, options: any = {}) {
   }
 
   Object.keys(options).forEach(key => { url += key + '=' + options[key] + '&' })
-  const tmpdir = path.join(__dirname, 'njre')
+  const tmpdir = path.join(__dirname, 'jre')
 
   return tmpFetch(url)
     .then((response: { json: () => any }) => response.json())

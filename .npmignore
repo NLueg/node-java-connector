@@ -1,0 +1,16 @@
+.vscode
+.vscode-test
+coverage
+node_modules
+.gitignore
+.npmignore
+tsconfig.json
+.log
+.github
+src
+test
+coverage
+jest.config.js
+tslint.json
+jr
+types

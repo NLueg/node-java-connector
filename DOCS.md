@@ -1,7 +1,7 @@
 <a name="install"></a>
 
 ## install([version], [options]) ⇒
-Installs a JRE copy for the app
+Installs a JRE copy for the app, if no Java is installed on the system.
 
 **Kind**: global function  
 **Returns**: Promise<string> - Resolves to the installation directory or rejects an error  
@@ -19,10 +19,10 @@ Installs a JRE copy for the app
 
 **Example**  
 ```js
-const njre = require('njre')
+const njc = require('node-java-connector')
 
 // Use default options
-njre.install()
+njc.install()
   .then(dir => {
     // Do stuff
   })
@@ -31,7 +31,7 @@ njre.install()
   })
 
 // or custom ones
-njre.install(11, { os: 'aix', arch: 'ppc64', openjdk_impl: 'openj9' })
+njc.install(11, { os: 'aix', arch: 'ppc64', openjdk_impl: 'openj9' })
   .then(dir => {
     // Do stuff
   })
