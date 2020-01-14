@@ -10,6 +10,7 @@ const tar = require('tar')
 
 
 import * as findJavaHome from "find-java-home";
+import { jrePath } from "./constants"
 
 function createDir (dir: any) {
   return new Promise((resolve, reject) => {
@@ -134,7 +135,7 @@ function extractTarGz (file: any, dir: unknown) {
 }
 
 function extract (file: any) {
-  const dir = path.join(path.dirname(file), 'jre')
+  const dir = path.join(path.dirname(__dirname), jrePath);
 
   return createDir(dir).then(() => {
     return path.extname(file) === '.zip'
@@ -175,17 +176,17 @@ function extract (file: any) {
  *     // Handle the error
  *   })
  */
-async function install (version = 8, options: any = {}) {
-  let javaHomeExists: boolean = false;
+export async function install (version = 8, options: any = {}) {
+  // let javaHomeExists: boolean = false;
   await findJavaHome({ allowJre: true }, async (err, home) => {
     if (err) return console.log(err);
 
     // Then we can just call "java" in the console
     if (!!home && home !== "") {
-      javaHomeExists = true;
+      // javaHomeExists = true;
     }
   });
-  if (javaHomeExists) return;
+  // if (javaHomeExists) return;
 
   const { openjdk_impl = 'hotspot', release = 'latest', type = 'jre' }: any = options;
   options = { ...options, openjdk_impl, release, type }
@@ -219,7 +220,6 @@ async function install (version = 8, options: any = {}) {
   }
 
   Object.keys(options).forEach(key => { url += key + '=' + options[key] + '&' })
-
   const tmpdir = path.join(os.tmpdir(), 'njre')
 
   return tmpFetch(url)
@@ -229,5 +229,3 @@ async function install (version = 8, options: any = {}) {
     .then(move)
     .then(extract)
 }
-
-module.exports = install
