@@ -99,7 +99,16 @@ export async function install(version: number = 8, options: any = {}) {
     .then(extract)
 }
 
-export async function executeJar(jarPath: string): Promise<ChildProcess> {
+
+/**
+ * Starts the jar at the given path
+ *
+ * @export
+ * @param {string} jarPath path to the jar-file which should be executed
+ * @param {string[]} [args] optional arguments that will be appended while executing
+ * @returns {Promise<ChildProcess>}
+ */
+export async function executeJar(jarPath: string, args?: string[]): Promise<ChildProcess> {
 
   let javaCall: string = "";
   let javaExists: boolean = false;
@@ -117,7 +126,8 @@ export async function executeJar(jarPath: string): Promise<ChildProcess> {
     javaCall = getJavaString();
   }
 
-  var output = exec(`${javaCall} -jar ${jarPath}`);
+  let argumentString: string = !args ? "" : args.map(str => `\'${str}\'`).join(' ');
+  var output = exec(`${javaCall} -jar ${jarPath} ${argumentString}`);
   if (!!output.stderr) {
     output.stderr.on("data", (stderr: any) => {
       console.error(`${stderr}`);

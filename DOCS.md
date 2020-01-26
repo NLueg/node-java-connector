@@ -1,6 +1,6 @@
 <a name="install"></a>
 
-## install([version], [options]) ⇒
+## install([version], [options])
 Installs a JRE copy for the app, if no Java is installed on the system.
 
 **Kind**: global function  
@@ -39,3 +39,8 @@ njc.install(11, { os: 'aix', arch: 'ppc64', openjdk_impl: 'openj9' })
     // Handle the error
   })
 ```
+
+## executeJar(jarPath: string, [arguments]: string[])
+
+Executes the JAR with the given path.
+You can also provide a few arguments that will be used while running the JAR.
