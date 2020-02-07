@@ -1,6 +1,7 @@
 # node-java-connector
 
-![npm](https://img.shields.io/npm/v/node-java-connector.svg) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/node-java-connector)
+[![npm version](https://badge.fury.io/js/node-java-connector.svg)](https://badge.fury.io/js/node-java-connector)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/node-java-connector)
 
 This package helps with running JAR-Files from JavaScript.
 If no Java is installed on the system, a openJDK version will be installed temporarily.
