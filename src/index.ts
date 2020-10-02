@@ -136,6 +136,46 @@ export async function executeJar(jarPath: string, args?: string[]): Promise<Chil
   return output;
 }
 
+/**
+ * Starts the class at the given path with given classpaths
+ *
+ * @export
+ * @param {string} className Java classname to execute.
+ * @param {string[]} [classpaths] optional Zip/Jar files to include to classpath.
+ * @param {string[]} [args] optional arguments that will be appended while executing
+ * @returns {Promise<ChildProcess>}
+ */
+export async function executeClassWithCP(className: string, classpaths?: string[], args?: string[]): Promise<ChildProcess> {
+
+  let javaCall: string = "";
+  let javaExists: boolean = false;
+  await findJavaHome({ allowJre: true }, async (err, home) => {
+    if (err) return console.log(err);
+
+    // Then we can just call "java" in the console
+    if (!!home && home !== "") {
+      javaExists = true;
+      javaCall = "java";
+    }
+  });
+
+  if (!javaExists) {
+    javaCall = getJavaString();
+  }
+
+  let argumentString: string = !args ? "" : args.map(str => `\'${str}\'`).join(' ');
+  const pathSep = process.platform==='win32' ? ";" : ":";
+  let classpath = !classpaths ? '""' : classpaths.join(pathSep)
+  var output = exec(`${javaCall} -cp ${classpath} ${className} ${argumentString}`);
+  if (!!output.stderr) {
+    output.stderr.on("data", (stderr: any) => {
+      console.error(`${stderr}`);
+    });
+  }
+  return output;
+}
+
+
 function getJavaString(): string {
   let srcPath = path.join(path.resolve(__dirname), '../', jrePath);
   let files = readdirSync(srcPath);
