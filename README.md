@@ -44,4 +44,4 @@ njb
 }
 ```
 
-4. Use the `executeJar` method with the pack to your JAR-file and optional arguments.
+4. Use the `executeJar` method with the path to your JAR-file and optional arguments or `executeClassWithCP` for non-executable JARs.
