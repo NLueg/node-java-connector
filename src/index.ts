@@ -1,6 +1,6 @@
 'use strict'
 
-import { ChildProcess, exec } from "child_process";
+import { ChildProcess, spawn } from "child_process";
 import * as findJavaHome from "find-java-home";
 import { readdirSync } from "fs";
 import { jrePath } from "./constants";
@@ -110,9 +110,7 @@ export async function install(version: number = 8, options: any = {}) {
  */
 export async function executeJar(jarPath: string, args?: string[]): Promise<ChildProcess> {
   const javaCommand = await getJavaCommand();
-
-  let argumentString: string = !args ? "" : args.map(str => `\'${str}\'`).join(' ');
-  var output = exec(`${javaCommand} -jar ${jarPath} ${argumentString}`);
+  var output = spawn(javaCommand, getJarArgs(jarPath, args));
   if (!!output.stderr) {
     output.stderr.on("data", (stderr: any) => {
       console.error(`${stderr}`);
@@ -130,13 +128,9 @@ export async function executeJar(jarPath: string, args?: string[]): Promise<Chil
  * @param {string[]} [args] optional arguments that will be appended while executing
  * @returns {Promise<ChildProcess>}
  */
-export async function executeClassWithCP(className: string, classpaths?: string[], args?: string[]): Promise<ChildProcess> {
+export async function executeClassWithCP(className: string, classPaths?: string[], args?: string[]): Promise<ChildProcess> {
   const javaCommand = await getJavaCommand();
-
-  let argumentString: string = !args ? "" : args.map(str => `\'${str}\'`).join(' ');
-  const pathSep = process.platform==='win32' ? ";" : ":";
-  let classpath = !classpaths ? '""' : classpaths.join(pathSep)
-  var output = exec(`${javaCommand} -cp ${classpath} ${className} ${argumentString}`);
+  var output = spawn(javaCommand, getClassArgs(className, classPaths, args));
   if (!!output.stderr) {
     output.stderr.on("data", (stderr: any) => {
       console.error(`${stderr}`);
@@ -163,6 +157,26 @@ async function getJavaCommand(): Promise<string> {
   }
 }
 
+function getJarArgs(jarPath: string, args: string[] = []): string[] {
+  let ret = args.slice();
+  ret.unshift(jarPath);
+  ret.unshift("-jar");
+  return ret;
+}
+
+function getClassArgs(className: string, classPaths: string[] = [], args: string[] = []): string[] {
+  let ret = args.slice();
+  ret.unshift(className);
+  ret.unshift(joinPaths(classPaths));
+  ret.unshift("-cp");
+  return ret;
+}
+
+function joinPaths(paths: string[] = []): string {
+  let pathSep = process.platform === "win32" ? ";" : ":";
+  let ret = `${paths.join(pathSep)}`
+  return ret;
+}
 
 function getJavaString(): string {
   let srcPath = path.join(path.resolve(__dirname), '../', jrePath);
