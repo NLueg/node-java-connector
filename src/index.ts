@@ -112,9 +112,7 @@ export async function executeJar(jarPath: string, args?: string[]): Promise<Chil
   const javaCommand = await getJavaCommand();
   var output = spawn(javaCommand, getJarArgs(jarPath, args));
   if (!!output.stderr) {
-    output.stderr.on("data", (stderr: any) => {
-      console.error(`${stderr}`);
-    });
+    output.stderr.pipe(process.stderr);
   }
   return output;
 }
@@ -132,9 +130,7 @@ export async function executeClassWithCP(className: string, classPaths?: string[
   const javaCommand = await getJavaCommand();
   var output = spawn(javaCommand, getClassArgs(className, classPaths, args));
   if (!!output.stderr) {
-    output.stderr.on("data", (stderr: any) => {
-      console.error(`${stderr}`);
-    });
+    output.stderr.pipe(process.stderr);
   }
   return output;
 }
