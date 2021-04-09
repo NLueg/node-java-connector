@@ -187,7 +187,7 @@ function getJavaString(): string {
 }
 
 function createDir(dir: any) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     fs.access(dir, (err: { code: string }) => {
       if (err && err.code === 'ENOENT') {
         fs.mkdir(dir, (err: any) => {
