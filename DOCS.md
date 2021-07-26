@@ -3,8 +3,8 @@
 ## install([version], [options])
 Installs a JRE copy for the app, if no Java is installed on the system.
 
-**Kind**: global function  
-**Returns**: Promise<string> - Resolves to the installation directory or rejects an error  
+**Kind**: global function
+**Returns**: Promise<string> - Resolves to the installation directory or rejects an error
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -16,8 +16,9 @@ Installs a JRE copy for the app, if no Java is installed on the system.
 | [options.release] | <code>string</code> | <code>&quot;latest&quot;</code> | Release |
 | [options.type] | <code>string</code> | <code>&quot;jre&quot;</code> | Binary Type (`jre`/`jdk`) |
 | [options.heap_size] | <code>string</code> |  | Heap Size (`normal`/`large`) |
+| [options.allow_system_java] | <code>boolean</code> |  | Allow using system-wide java installation rather than downloading and installing a local copy (defaults to `true`) |
 
-**Example**  
+**Example**
 ```js
 const njc = require('node-java-connector')
 

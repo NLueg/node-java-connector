@@ -23,6 +23,7 @@ const tar = require('tar');
  * @param {string} [options.release = latest] - Release
  * @param {string} [options.type = jre] - Binary Type (`jre`/`jdk`)
  * @param {string} [options.heap_size] - Heap Size (`normal`/`large`)
+ * @param {boolean} [options.allow_system_java] - Allow using system-wide java installation rather than downloading and installing a local copy (defaults to `true`)
  * @return Promise<string> - Resolves to the installation directory or rejects an error
  * @example
  * const njc = require('node-java-connector')
@@ -46,19 +47,16 @@ const tar = require('tar');
  *   })
  */
 export async function install(version: number = 8, options: any = {}) {
-  let javaHomeExists: boolean = false;
-  await findJavaHome({ allowJre: true }, async (err, home) => {
-    if (err) return console.log(err);
 
-    // Then we can just call "java" in the console
-    if (!!home && home !== "") {
-      javaHomeExists = true;
+  const { openjdk_impl = 'hotspot', release = 'latest', type = 'jre', allow_system_java = true }: any = options;
+  options = { ...options, openjdk_impl, release, type, allow_system_java }
+
+  if (options.allow_system_java == true) {
+    if (await systemJavaExists()) {
+      return;
     }
-  });
-  if (javaHomeExists) return;
+  }
 
-  const { openjdk_impl = 'hotspot', release = 'latest', type = 'jre' }: any = options;
-  options = { ...options, openjdk_impl, release, type }
   let url = 'https://api.adoptopenjdk.net/v2/info/releases/openjdk' + version + '?'
 
   if (!options.os) {
@@ -135,22 +133,44 @@ export async function executeClassWithCP(className: string, classPaths?: string[
   return output;
 }
 
-async function getJavaCommand(): Promise<string> {
-  let javaCall: string = "";
-  await findJavaHome({ allowJre: true }, (err, home) => {
-    if (err) return console.log(err);
+async function getSystemJavaHome(): Promise<string> {
+  let ret: string = '';
 
-    // Then we can just call "java" in the console
-    if (!!home && home !== "") {
-      javaCall = "java";
+  await findJavaHome({ allowJre: true }, async (err, home) => {
+    if (err) {
+      console.log(err);
+      return;
     }
+    ret = home;
   });
 
-  if (!javaCall) {
-    return getJavaString();
-  } else {
-    return javaCall;
+  return ret;
+}
+
+async function systemJavaExists(): Promise<boolean> {
+  let ret = false;
+
+  let systemJavaHome = await getSystemJavaHome();
+
+  if (!!systemJavaHome && systemJavaHome !== "") {
+    ret = true;
   }
+
+  return ret;
+}
+
+async function getJavaCommand(): Promise<string> {
+  try {
+    return getJavaString();
+  } catch (e) {
+    // ignore exception
+  }
+
+  if (await systemJavaExists()) {
+    return "java";
+  }
+
+  throw Error('Unable to find locally-installed java or system-wide java');
 }
 
 function getJarArgs(jarPath: string, args: string[] = []): string[] {
@@ -177,7 +197,6 @@ function joinPaths(paths: string[] = []): string {
 function getJavaString(): string {
   let srcPath = path.join(path.resolve(__dirname), '../', jrePath);
   let files = readdirSync(srcPath);
-
 
   const file = files.filter(name => !name.startsWith("._"));
   if (file.length > 1)
