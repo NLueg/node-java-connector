@@ -24,7 +24,7 @@
   "author": "Nico Lueg",
   "license": "MIT",
   "dependencies": {
-    "find-java-home": "^1.2.0",
+    "find-java-home": "^1.2.1",
     "node-fetch": "^2.6.0",
     "tar": "^6.1.0",
     "typescript": "^4.2.4",
