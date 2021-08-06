@@ -26,13 +26,13 @@
     "dependencies": {
         "find-java-home": "^1.2.1",
         "node-fetch": "^2.6.0",
-        "tar": "^6.1.1",
+        "tar": "^6.1.6",
         "typescript": "^4.3.5",
         "yauzl": "^2.10.0"
     },
     "devDependencies": {
         "@types/find-java-home": "^1.0.0",
-        "@types/node": "^14.14.37",
+        "@types/node": "^16.4.13",
         "rimraf": "^3.0.2"
     }
 }
