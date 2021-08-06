@@ -83,6 +83,8 @@ export async function install(version: number = 8, options: any = {}) {
   if (!options.arch) {
     if (/^ppc64|s390x|x32|x64$/g.test(process.arch)) options.arch = process.arch
     else if (process.arch === 'ia32') options.arch = 'x32'
+    // support Apple silicon processors using Rosetta 2 as there is no arm64 (aarch64) openjdk release yet
+    else if (options.os === 'mac') options.arch = 'x64'
     else return Promise.reject(new Error('Unsupported architecture'))
   }
 
