@@ -9,7 +9,8 @@ All notable changes to this project will be documented in this file.
 ### Features
 
 - Added support for Apple silicon processors (thanks to [amtrack](https://github.com/amtrack))
-- 
+-
+
 ## [0.2.0] - 2021-07-26
 
 ### Features

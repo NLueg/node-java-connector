@@ -1,1 +1,1 @@
-export const jrePath = 'dist/jre';
+export const jrePath = "dist/jre";

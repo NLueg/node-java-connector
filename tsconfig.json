@@ -1,27 +1,38 @@
 {
-    "compilerOptions": {
-      "experimentalDecorators": true,
-      "target": "ES5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "declarationMap": true,
-      "inlineSources": false,
-      "declaration": true,
-      "stripInternal": true,
-      "lib": ["es2017", "dom"],
-      "strict": true,
-      "noImplicitReturns": true,
-      "noUnusedLocals": true,
-      "rootDir": "src",
-      "outDir": "dist",
-      "baseUrl": "./",
-      "paths": {
-        "src/*": ["src/*"],
-        "test/*": ["test/*"]
-      },
-      "skipLibCheck": true
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "ES5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declarationMap": true,
+    "inlineSources": false,
+    "declaration": true,
+    "stripInternal": true,
+    "lib": ["es2017", "dom"],
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "test/*": ["test/*"]
     },
-    "include": ["src"]
-  }
-  
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "src/testing/",
+    "src/**/*.spec.ts",
+    "src/**/*.mock.ts",
+    "src/**/*.template.ts",
+    "**/environment.prod.ts",
+    "**/environment.web.ts",
+    "**/environment.web.prod.ts",
+    "src/app/receipts/shared/services/receipt/infinite-scroll-state.model.ts",
+    "src/app/receipts/shared/services/receipt/generic-infinite-scroll.service.ts",
+    "src/testing/test-utils.ts"
+  ]
+}

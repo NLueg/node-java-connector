@@ -21,15 +21,14 @@ npm install node-java-connector
 2. Define a file like `install.js` where you deal with installing the JRE with the following content:
 
 ```js
-
 const njb = require("node-java-connector");
 
 njb
- .install(8, { type: "jre" })
- .then(dir => {})
- .catch(err => {
- console.log(err);
- });
+  .install(8, { type: "jre" })
+  .then((dir) => {})
+  .catch((err) => {
+    console.log(err);
+  });
 ```
 
 3. Add the script to your `package.json` that the JRE gets installed everytime when your package gets installed:
