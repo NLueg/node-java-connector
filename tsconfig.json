@@ -1,27 +1,25 @@
 {
-    "compilerOptions": {
-      "experimentalDecorators": true,
-      "target": "ES5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "declarationMap": true,
-      "inlineSources": false,
-      "declaration": true,
-      "stripInternal": true,
-      "lib": ["es2017", "dom"],
-      "strict": true,
-      "noImplicitReturns": true,
-      "noUnusedLocals": true,
-      "rootDir": "src",
-      "outDir": "dist",
-      "baseUrl": "./",
-      "paths": {
-        "src/*": ["src/*"],
-        "test/*": ["test/*"]
-      },
-      "skipLibCheck": true
-    },
-    "include": ["src"]
-  }
-  
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target": "ES5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declarationMap": true,
+    "inlineSources": false,
+    "declaration": true,
+    "stripInternal": true,
+    "lib": ["es2017", "dom"],
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": "./",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ]
+}

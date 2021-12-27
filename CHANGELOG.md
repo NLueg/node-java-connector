@@ -4,12 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2021-12-27
+
+### Features
+
+- Huge refactoring with better typings and documentation
+- Usage of the OpenJDK V3 Api
+
 ## [0.2.1] - 2021-08-06
 
 ### Features
 
 - Added support for Apple silicon processors (thanks to [amtrack](https://github.com/amtrack))
-- 
+
 ## [0.2.0] - 2021-07-26
 
 ### Features
