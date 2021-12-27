@@ -7,7 +7,8 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "prepare": "npm run clean && npm run build",
-    "lint": "eslint --fix --ext .ts src"
+    "lint": "eslint --fix --ext .ts src",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
