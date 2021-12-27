@@ -1,4 +1,5 @@
 import * as path from 'path';
+
 import { executeJar } from '../../dist';
 
 const relativePath = path.join(

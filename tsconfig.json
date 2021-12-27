@@ -16,23 +16,10 @@
     "rootDir": "src",
     "outDir": "dist",
     "baseUrl": "./",
-    "paths": {
-      "src/*": ["src/*"],
-      "test/*": ["test/*"]
-    },
     "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],
   "exclude": [
-    "src/testing/",
-    "src/**/*.spec.ts",
-    "src/**/*.mock.ts",
-    "src/**/*.template.ts",
-    "**/environment.prod.ts",
-    "**/environment.web.ts",
-    "**/environment.web.prod.ts",
-    "src/app/receipts/shared/services/receipt/infinite-scroll-state.model.ts",
-    "src/app/receipts/shared/services/receipt/generic-infinite-scroll.service.ts",
-    "src/testing/test-utils.ts"
+    "src/**/*.spec.ts"
   ]
 }
