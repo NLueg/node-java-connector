@@ -1,4 +1,4 @@
-import * as crypto from 'crypto';
+/* eslint-disable unused-imports/no-unused-vars,@typescript-eslint/no-unused-vars */
 import * as fs from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
@@ -10,8 +10,6 @@ import { generateInstallOptions } from './generate-install-options';
 import { InstallOptions } from './install.typings';
 
 const staticOpenJdkUrl = 'https://api.adoptopenjdk.net/v3/binary/latest/';
-
-type OpenJdkReturnValue = { binaries: { [x: string]: string }[] };
 
 /**
  * Installs a JRE copy for the app
@@ -45,25 +43,14 @@ export async function install(
     return Promise.resolve(undefined);
   }
 
-  const installOptions = generateInstallOptions(options);
-  const url = getUrlToCall(installOptions);
+  const url = getUrlToCall(options);
 
-  console.log(url);
-
-  const jreKeyPath = path.join(__dirname, 'jre-key');
-  return fetch(url)
-    .then((response) => response.json())
-    .then((json) => {
-      console.error(json);
-      const receivedData: OpenJdkReturnValue = json as OpenJdkReturnValue;
-      return downloadAll(jreKeyPath, receivedData.binaries[0]['binary_link']);
-    })
-    .then(verify)
-    .then(move)
-    .then(extract);
+  const jreKeyPath = path.join(__dirname, 'jre');
+  return download(jreKeyPath, url).then(moveOneFolderUp).then(extract);
 }
 
-function getUrlToCall(options: InstallOptions): string {
+export function getUrlToCall(givenOptions?: InstallOptions): string {
+  const options = generateInstallOptions(givenOptions);
   return `${staticOpenJdkUrl}${options.feature_version}/${options.release_type}/${options.os}/${options.arch}/${options.image_type}/${options.openjdk_impl}/${options.heap_size}/${options.vendor}`;
 }
 
@@ -72,49 +59,25 @@ function download(dir: string, url: string): Promise<string> {
     createDir(dir)
       .then(() => fetch(url))
       .then((response) => {
-        const destinationFilePath = path.join(dir, path.basename(url));
+        const fileName = response.headers
+          .get('content-disposition')
+          ?.split('=')[1];
+        const destinationFilePath = path.join(
+          dir,
+          fileName ?? path.basename(url)
+        );
         const destStream = fs.createWriteStream(destinationFilePath);
+
         response.body
           ?.pipe(destStream)
-          .on('finish', () => resolve(destinationFilePath));
+          .on('finish', () => resolve(destinationFilePath))
+          .on('error', (err) => reject(err));
       })
       .catch((err) => reject(err));
   });
 }
 
-function downloadAll(dir: string, url: string): Promise<string> {
-  return download(dir, url + '.sha256.txt').then(() => download(dir, url));
-}
-
-function genChecksum(filePath: string) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        reject(err);
-      }
-
-      resolve(crypto.createHash('sha256').update(data).digest('hex'));
-    });
-  });
-}
-
-function verify(filePath: string): Promise<string> {
-  return new Promise<string>((resolve, reject) =>
-    fs.readFile(filePath + '.sha256.txt', 'utf-8', (err, data) => {
-      if (err) {
-        reject(err);
-      }
-
-      genChecksum(filePath).then((checksum) => {
-        checksum === data.split('  ')[0]
-          ? resolve(filePath)
-          : reject(new Error("File and checksum don't match"));
-      });
-    })
-  );
-}
-
-function move(filePath: string): Promise<string> {
+function moveOneFolderUp(filePath: string): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const newFilePath = path.join(
       __dirname,

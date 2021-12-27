@@ -20,13 +20,13 @@ export async function getJavaCommand(): Promise<string> {
 }
 
 function getJavaString(): string {
-  const srcPath = path.join(path.resolve(__dirname), '../', jrePath);
-  const files = readdirSync(srcPath);
+  const pathOfJreFolder = path.join(path.resolve(__dirname), '../', jrePath);
 
+  const files = readdirSync(pathOfJreFolder);
   const file = files.filter((name) => !name.startsWith('._'));
   if (file.length > 1) {
     throw Error('JRE installation failed! Please install the package again.');
   }
 
-  return path.join(srcPath, file[0], getExecutable());
+  return path.join(pathOfJreFolder, file[0], getExecutable());
 }

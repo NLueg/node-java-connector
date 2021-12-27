@@ -1,19 +1,26 @@
-import { install } from './install';
-
-// jest.mock('node-fetch');
-// // eslint-disable-next-line import/first
-// import fetch from 'node-fetch';
+import { getUrlToCall } from './install';
 
 describe('install-jdk', () => {
-  it('should install jdk', async () => {
-    // (fetch as any).mockReturnValue(Promise.resolve({ json: () => '' }));
+  it('default url for no parameters', () => {
+    const url = getUrlToCall();
+    expect(url).toBe(
+      'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/windows/x64/jre/hotspot/normal/adoptopenjdk'
+    );
+  });
 
-    const result = await install();
-    expect(result).toBe(true);
-
-    // expect(fetch).toHaveBeenCalledTimes(1);
-    // expect(fetch).toHaveBeenCalledWith('http://website.com/users', {
-    //   method: 'POST',
-    // });
+  it('should include given parameters', () => {
+    const url = getUrlToCall({
+      feature_version: 12,
+      heap_size: 'large',
+      vendor: 'alibaba',
+      openjdk_impl: 'dragonwell',
+      arch: 'x86',
+      release_type: 'ea',
+      image_type: 'staticlibs',
+      os: 'linux',
+    });
+    expect(url).toBe(
+      'https://api.adoptopenjdk.net/v3/binary/latest/12/ea/linux/x86/staticlibs/dragonwell/large/alibaba'
+    );
   });
 });

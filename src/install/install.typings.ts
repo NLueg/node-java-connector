@@ -43,6 +43,7 @@ export type InstallOptions = {
 
   /**
    * If set to true, the JRE won't be installed if java is already installed.
+   * (defaults to false)
    */
   allow_system_java?: boolean;
 };
@@ -54,6 +55,7 @@ export const defaultOptions: InstallOptions = {
   release_type: 'ga',
   heap_size: 'normal',
   vendor: 'adoptopenjdk',
+  allow_system_java: false,
 };
 
 export type SupportedOs =
