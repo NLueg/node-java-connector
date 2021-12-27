@@ -10,8 +10,13 @@ tsconfig.json
 src
 test
 coverage
-jest.config.js
-tslint.json
 jr
 types
 example
+.idea
+jest.config.ts
+tsconfig.spec.json
+.prettierrc.json
+CHANGELOG.md
+LICENSE
+.eslintrc.json

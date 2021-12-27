@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.1] - 2021-12-27
+
+### Bugfix
+
+- Reduce npm publish size
+
 ## [1.0.0] - 2021-12-27
 
 ### Features

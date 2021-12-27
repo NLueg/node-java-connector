@@ -1,4 +1,4 @@
-import * as findJavaHome from 'find-java-home';
+import findJavaHome from 'find-java-home';
 
 export async function systemJavaExists(): Promise<boolean> {
   let ret = false;
