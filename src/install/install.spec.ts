@@ -2,7 +2,7 @@ import { getUrlToCall } from './install';
 
 describe('install-jdk', () => {
   it('default url for no parameters', () => {
-    const url = getUrlToCall();
+    const url = getUrlToCall({ os: 'windows' });
     expect(url).toBe(
       'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/windows/x64/jre/hotspot/normal/adoptopenjdk'
     );
