@@ -33,7 +33,6 @@
     "yauzl": "^2.10.0"
   },
   "devDependencies": {
-    "@types/find-java-home": "^1.0.0",
     "@types/jest": "^27.0.3",
     "@types/node": "^17.0.5",
     "@types/node-fetch": "^2.5.12",

@@ -6,6 +6,8 @@
 This package helps with running JAR-Files from JavaScript.
 If no Java is installed on the system, a openJDK version will be installed temporarily.
 
+An example can be found at https://github.com/NLueg/node-java-connector-example.
+
 ## Getting Started
 
 1. Install the package:
