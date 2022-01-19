@@ -8,8 +8,8 @@ import { Entry } from 'yauzl';
 import { jrePath } from '../constants';
 import { createDir } from '../helper/create-dir';
 
-export function extract(filePath: string): Promise<string> {
-  const dir = path.join(path.dirname(__dirname), jrePath);
+export function extract(filePath: string, installPath: string): Promise<string> {
+  const dir = path.join(path.dirname(installPath), jrePath);
 
   return createDir(dir).then(() => {
     return path.extname(filePath) === '.zip'

@@ -37,20 +37,23 @@ const staticOpenJdkUrl = 'https://api.adoptopenjdk.net/v3/binary/latest/';
  *    })
  */
 export async function install(
-  options?: InstallOptions
+  givenOptions?: InstallOptions
 ): Promise<string | undefined> {
-  if (options?.allow_system_java == true && (await systemJavaExists())) {
+  if (givenOptions?.allow_system_java == true && (await systemJavaExists())) {
     return Promise.resolve(undefined);
   }
 
+  const options = generateInstallOptions(givenOptions);
   const url = getUrlToCall(options);
 
-  const jreKeyPath = path.join(__dirname, 'jre');
-  return download(jreKeyPath, url).then(moveOneFolderUp).then(extract);
+  const installPath = `${options.install_path}`;
+  const jreKeyPath = path.join(installPath, 'jre');
+  return download(jreKeyPath, url)
+    .then((downloadPath) => moveOneFolderUp(downloadPath, installPath))
+    .then((filePath) => extract(filePath, installPath));
 }
 
-export function getUrlToCall(givenOptions?: InstallOptions): string {
-  const options = generateInstallOptions(givenOptions);
+export function getUrlToCall(options: InstallOptions): string {
   return `${staticOpenJdkUrl}${options.feature_version}/${options.release_type}/${options.os}/${options.arch}/${options.image_type}/${options.openjdk_impl}/${options.heap_size}/${options.vendor}`;
 }
 
@@ -77,10 +80,10 @@ function download(dir: string, url: string): Promise<string> {
   });
 }
 
-function moveOneFolderUp(filePath: string): Promise<string> {
+function moveOneFolderUp(filePath: string, installPath: string): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const newFilePath = path.join(
-      __dirname,
+      installPath,
       filePath.split(path.sep).slice(-1)[0]
     );
 

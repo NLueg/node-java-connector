@@ -8,13 +8,16 @@ import { getJavaCommand } from '../helper/java-command';
  * @export
  * @param {string} jarPath path to the jar-file which should be executed
  * @param {string[]} [args] optional arguments that will be appended while executing
+ * @param {string} [jrePath] optional path to a JRE installation if other than default.
  * @returns {Promise<ChildProcess>}
  */
 export async function executeJar(
   jarPath: string,
-  args?: string[]
+  args?: string[],
+  jrePath?: string
 ): Promise<ChildProcess> {
-  const javaCommand = await getJavaCommand();
+  const jreInstallPath = resolveJREInstallPath(jrePath);
+  const javaCommand = await getJavaCommand(jreInstallPath);
   const output = spawn(javaCommand, getJarArgs(jarPath, args));
   if (output.stderr) {
     output.stderr.pipe(process.stderr);
@@ -27,4 +30,11 @@ function getJarArgs(jarPath: string, args: string[] = []): string[] {
   ret.unshift(jarPath);
   ret.unshift('-jar');
   return ret;
+}
+
+function resolveJREInstallPath(jrePath?: string) {
+  if(jrePath != null) {
+    return jrePath;
+  }
+  return __dirname;
 }
