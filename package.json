@@ -1,6 +1,6 @@
 {
   "name": "node-java-connector",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "enables platform independent java support",
   "main": "dist/index.js",
   "scripts": {

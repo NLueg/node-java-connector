@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-01-21
+
+### Features
+
+- The installation path of JRE can now be defined [#12]
+
 ## [1.0.1] - 2021-12-27
 
 ### Bugfix
