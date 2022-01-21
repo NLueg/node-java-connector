@@ -74,13 +74,16 @@ function download(dir: string, url: string): Promise<string> {
         response.body
           ?.pipe(destStream)
           .on('finish', () => resolve(destinationFilePath))
-          .on('error', (err) => reject(err));
+          .once('error', (err) => reject(err));
       })
       .catch((err) => reject(err));
   });
 }
 
-function moveOneFolderUp(filePath: string, installPath: string): Promise<string> {
+function moveOneFolderUp(
+  filePath: string,
+  installPath: string
+): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const newFilePath = path.join(
       installPath,
