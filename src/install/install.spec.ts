@@ -1,12 +1,9 @@
-import { generateInstallOptions } from './generate-install-options';
 import { getUrlToCall } from './install';
+import { generateInstallOptions } from './generate-install-options';
 
 describe('install-jdk', () => {
   it('creates valid url for default parameters', () => {
-    const url = getUrlToCall({
-      ...generateInstallOptions(),
-      os: 'windows', // Required to get the correct url on every platform
-    });
+    const url = getUrlToCall(generateInstallOptions());
     expect(url).toBe(
       'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/windows/x64/jre/hotspot/normal/adoptopenjdk'
     );
