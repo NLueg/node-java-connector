@@ -5,9 +5,9 @@ import { jrePath } from '../constants';
 import { getExecutable } from './get-executable';
 import { systemJavaExists } from './java-exists';
 
-export async function getJavaCommand(): Promise<string> {
+export async function getJavaCommand(jreInstallPath: string): Promise<string> {
   try {
-    return getJavaString();
+    return getJavaString(jreInstallPath);
   } catch (e) {
     // ignore exception
   }
@@ -19,8 +19,8 @@ export async function getJavaCommand(): Promise<string> {
   throw Error('Unable to find locally-installed java or system-wide java');
 }
 
-function getJavaString(): string {
-  const pathOfJreFolder = path.join(path.resolve(__dirname), '../', jrePath);
+function getJavaString(jreInstallPath: string): string {
+  const pathOfJreFolder = path.join(path.resolve(jreInstallPath), '../', jrePath);
 
   const files = readdirSync(pathOfJreFolder);
   const file = files.filter((name) => !name.startsWith('._'));

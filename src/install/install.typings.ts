@@ -46,6 +46,11 @@ export type InstallOptions = {
    * (defaults to false)
    */
   allow_system_java?: boolean;
+
+  /**
+   * The path where to install the JRE. (defaults to __dirname)
+   */
+   install_path?: string;
 };
 
 export const defaultOptions: InstallOptions = {
@@ -56,6 +61,7 @@ export const defaultOptions: InstallOptions = {
   heap_size: 'normal',
   vendor: 'adoptopenjdk',
   allow_system_java: false,
+  install_path: __dirname,
 };
 
 export type SupportedOs =
