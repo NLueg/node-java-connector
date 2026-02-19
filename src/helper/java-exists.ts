@@ -12,7 +12,7 @@ export async function systemJavaExists(): Promise<boolean> {
   return ret;
 }
 
-async function getSystemJavaHome(): Promise<string> {
+export async function getSystemJavaHome(): Promise<string> {
   let ret = '';
 
   await findJavaHome({ allowJre: true }, async (err, home) => {

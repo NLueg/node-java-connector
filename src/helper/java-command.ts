@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import { jrePath } from '../constants';
 import { getExecutable } from './get-executable';
-import { systemJavaExists } from './java-exists';
+import { getSystemJavaHome } from './java-exists';
 
 export async function getJavaCommand(jreInstallPath: string): Promise<string> {
   try {
@@ -12,8 +12,9 @@ export async function getJavaCommand(jreInstallPath: string): Promise<string> {
     // ignore exception
   }
 
-  if (await systemJavaExists()) {
-    return 'java';
+  const javaHome = await getSystemJavaHome();
+  if (javaHome) {
+    return path.join(javaHome, getExecutable());
   }
 
   throw Error('Unable to find locally-installed java or system-wide java');
