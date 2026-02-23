@@ -3,9 +3,11 @@ import { generateInstallOptions } from './generate-install-options';
 
 describe('install-jdk', () => {
   it('creates valid url for default parameters', () => {
-    const url = getUrlToCall(generateInstallOptions());
+    const installOptions = generateInstallOptions();
+    const url = getUrlToCall(installOptions);
+
     expect(url).toBe(
-      'https://api.adoptopenjdk.net/v3/binary/latest/8/ga/windows/x64/jre/hotspot/normal/adoptopenjdk'
+      `https://api.adoptopenjdk.net/v3/binary/latest/8/ga/${installOptions.os}/${installOptions.arch}/jre/hotspot/normal/adoptopenjdk`
     );
   });
 
