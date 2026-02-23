@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-02-23
+
+### Bugfix
+
+- Make it possible to find system JDK that is only propagated via `JAVA_HOME`
+- Enable installation even when multiple JREs are installed
+
 ## [1.1.0] - 2022-01-21
 
 ### Features
